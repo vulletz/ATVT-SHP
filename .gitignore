@@ -1,0 +1,20 @@
+# Datos de ClickHouse
+clickhouse_data/
+
+# Datos VictoriaMetrics
+victoria_data/
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+venv/
+.env
+
+# Archivos temporales
+*.tmp
+*.bak

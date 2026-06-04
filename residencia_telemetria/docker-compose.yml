@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # 1. Colector de métricas y flujos
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf_colector
+    restart: always
+    network_mode: "host" # Usa la red del host para capturar tráfico SNMP/IPFIX fácilmente
+#    volumes:
+#      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+
+  # 2. Base de datos para Series Temporales (Métricas de salud/SNMP)
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:latest
+    container_name: victoriametrics_tsdb
+    restart: always
+    ports:
+      - "8428:8428"
+    volumes:
+      - vm_data:/victoria-metrics-data
+    command:
+      - "--retentionPeriod=1d" # Retención corta para el entorno de simulación
+
+  # 3. Base de datos OLAP (Flujos NetFlow/IPFIX)
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse_olap
+    restart: always
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+
+  # 4. Visualización Estratégica
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana_dashboard
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin # Cambia esto si lo pones en producción real
+
+volumes:
+  vm_data:
+  clickhouse_data:
+  grafana_data:

@@ -1,0 +1,44 @@
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse_olap
+    restart: always
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:latest
+    container_name: victoriametrics_tsdb
+    restart: always
+    ports:
+      - "8428:8428"
+    command:
+      - "--retentionPeriod=1d"
+    volumes:
+      - victoria_data:/storage
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana_dashboard
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      # Esto instala el plugin automáticamente si el contenedor se reinicia
+      - GF_INSTALL_PLUGINS=grafana-clickhouse-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf_colector
+    restart: always
+    network_mode: "host"
+
+volumes:
+  clickhouse_data:
+  victoria_data:
+  grafana_data:
