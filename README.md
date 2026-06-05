@@ -86,11 +86,14 @@ VictoriaMetrics
         ↓
 Grafana
 
+```bash
+
 ## Flujo principal de tráfico simulado
 El script simulador_red_heterogenea.py genera eventos de tráfico.
 Cada evento contiene información del edificio, área, equipo, IP, aplicación, bytes, paquetes, latencia, pérdida, errores y estado.
 Los datos son enviados mediante HTTP hacia ClickHouse.
 Grafana consulta ClickHouse y presenta la información en dashboards interactivos.
+
 
 ## 5. Tecnologías utilizadas
 Tecnología	Función dentro del prototipo
