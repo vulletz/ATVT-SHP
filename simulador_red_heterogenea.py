@@ -46,39 +46,111 @@ EDIFICIOS = {
     "A": {
         "subred": "192.168.10",
         "pisos": [1, 2, 3],
-        "descripcion": "Edificio A - Aulas y oficinas administrativas",
+        "descripcion": "Edificio A - Laboratorios, aulas y departamentos administrativos",
     },
     "B": {
         "subred": "192.168.20",
         "pisos": [1, 2, 3],
-        "descripcion": "Edificio B - Laboratorios",
+        "descripcion": "Edificio B - Laboratorios, dirección, servicios escolares y áreas académicas",
     },
     "C": {
         "subred": "192.168.30",
         "pisos": [1, 2],
-        "descripcion": "Edificio C - Posgrado y docentes",
+        "descripcion": "Edificio C - Laboratorio, aulas y simulación gerencial",
     },
     "D": {
         "subred": "192.168.40",
         "pisos": [1, 2],
-        "descripcion": "Edificio D - Servicios generales",
-    },
-    "ADMIN": {
-        "subred": "192.168.50",
-        "pisos": [1],
-        "descripcion": "Área administrativa",
-    },
-    "LAB": {
-        "subred": "192.168.60",
-        "pisos": [1, 2],
-        "descripcion": "Laboratorios especializados",
+        "descripcion": "Edificio D - Aulas y servicios administrativos",
     },
 }
 
+AREAS_FCA = {
+    "A": [
+        {"nombre": "Laboratorio A", "codigo": "LABA", "categoria": "Laboratorio", "tipo": "islas", "islas": {"I1": 30, "I2": 30, "I3": 20}},
+        {"nombre": "Salón", "codigo": "AULA", "categoria": "Aula", "tipo": "salones", "prefijo": "A", "inicio": 1, "fin": 43, "equipos_por_salon": 1},
+        {"nombre": "Administración", "codigo": "A", "categoria": "Departamento", "tipo": "departamento", "equipos": 3},
+        {"nombre": "Departamento de Psicología", "codigo": "PSI", "categoria": "Departamento", "tipo": "departamento", "equipos": 2},
+        {"nombre": "Departamento de Equidad de Género", "codigo": "EG", "categoria": "Departamento", "tipo": "departamento", "equipos": 1},
+        {"nombre": "Enfermería", "codigo": "ENF", "categoria": "Servicio", "tipo": "departamento", "equipos": 1},
+        {"nombre": "Cafetería", "codigo": "CAF", "categoria": "Servicio", "tipo": "departamento", "equipos": 2},
+        {"nombre": "Departamento de Ayuda Fiscal", "codigo": "AF", "categoria": "Departamento", "tipo": "departamento", "equipos": 6},
+        {"nombre": "Módulo Seguridad Universitaria", "codigo": "MSU", "categoria": "Seguridad", "tipo": "departamento", "equipos": 1},
+        {"nombre": "Consejería y Sociedad", "codigo": "CS", "categoria": "Departamento", "tipo": "departamento", "equipos": 1},
+        {"nombre": "Responsabilidad Social y Sustentabilidad", "codigo": "RSS", "categoria": "Departamento", "tipo": "departamento", "equipos": 2},
+        {"nombre": "Salas de Titulación", "codigo": "ST", "categoria": "Sala", "tipo": "sin_equipos", "salas": 3},
+    ],
+    "B": [
+        {"nombre": "Salón Multimedia", "codigo": "SM", "categoria": "Aula multimedia", "tipo": "salones", "prefijo": "SM", "inicio": 1, "fin": 3, "equipos_por_salon": 1},
+        {"nombre": "Estancia de Maestros", "codigo": "EM", "categoria": "Cubículo", "tipo": "salones", "prefijo": "EM", "inicio": 1, "fin": 47, "equipos_por_salon": 1},
+        {"nombre": "Sala Interactiva", "codigo": "SI", "categoria": "Sala", "tipo": "salones", "prefijo": "SI", "inicio": 1, "fin": 1, "equipos_por_salon": 1},
+        {"nombre": "Laboratorio B", "codigo": "LABB", "categoria": "Laboratorio", "tipo": "islas", "islas": {"I1": 30, "I2": 30, "I3": 30}},
+        {"nombre": "Sala de Consejo", "codigo": "SC", "categoria": "Sala", "tipo": "sin_equipos", "salas": 1},
+        {"nombre": "Departamento de Titulación", "codigo": "TIT", "categoria": "Departamento", "tipo": "departamento", "equipos": 3},
+        {"nombre": "Dirección", "codigo": "DIR", "categoria": "Departamento", "tipo": "departamento", "equipos": 2},
+        {"nombre": "Servicios Escolares", "codigo": "SE", "categoria": "Departamento", "tipo": "departamento", "equipos": 2},
+        {"nombre": "Secretaría Académica", "codigo": "SA", "categoria": "Departamento", "tipo": "departamento", "equipos": 3},
+        {"nombre": "Secretaría General", "codigo": "SG", "categoria": "Departamento", "tipo": "departamento", "equipos": 5},
+        {"nombre": "Procesamiento de Datos", "codigo": "PD", "categoria": "TI", "tipo": "departamento", "equipos": 2},
+        {"nombre": "Formación Integral", "codigo": "FI", "categoria": "Departamento", "tipo": "departamento", "equipos": 2},
+        {"nombre": "Ventanillas", "codigo": "VEN", "categoria": "Atención", "tipo": "departamento", "equipos": 4},
+        {"nombre": "Aula Magna", "codigo": "AM", "categoria": "Auditorio", "tipo": "sin_equipos", "salas": 1},
+    ],
+    "C": [
+        {"nombre": "Laboratorio C", "codigo": "LABC", "categoria": "Laboratorio", "tipo": "islas", "islas": {"I1": 30}},
+        {"nombre": "Salón", "codigo": "AULA", "categoria": "Aula", "tipo": "salones", "prefijo": "C", "inicio": 1, "fin": 11, "equipos_por_salon": 1},
+        {"nombre": "Sala de Simulación Gerencial", "codigo": "SSG", "categoria": "Sala especializada", "tipo": "departamento", "equipos": 6},
+    ],
+    "D": [
+        {"nombre": "Salón", "codigo": "AULA", "categoria": "Aula", "tipo": "salones", "prefijo": "D", "inicio": 0, "fin": 12, "equipos_por_salon": 1},
+        {"nombre": "Librería", "codigo": "LIB", "categoria": "Servicio", "tipo": "departamento", "equipos": 2},
+        {"nombre": "Servicio Social", "codigo": "SS", "categoria": "Departamento", "tipo": "departamento", "equipos": 3},
+        {"nombre": "Tesorería", "codigo": "TES", "categoria": "Departamento", "tipo": "departamento", "equipos": 2},
+    ],
+}
+
+DNS_INSTITUCIONALES = [
+    "10.128.131.10",
+    "148.224.251.130",
+    "148.224.17.25",
+    "148.224.17.26",
+]
+
+SSIDS = [
+    {
+        "ssid": "UASLP-Alumnos",
+        "categoria": "WiFi Alumnos",
+        "cantidad_ap": 5,
+        "peso_trafico": 1.8,
+        "segmento": "WiFi-Alumnos",
+    },
+    {
+        "ssid": "UASLP-Academicos",
+        "categoria": "WiFi Académicos",
+        "cantidad_ap": 5,
+        "peso_trafico": 1.2,
+        "segmento": "WiFi-Academicos",
+    },
+    {
+        "ssid": "UASLP-Administrativos",
+        "categoria": "WiFi Administrativos",
+        "cantidad_ap": 5,
+        "peso_trafico": 1.0,
+        "segmento": "WiFi-Administrativos",
+    },
+]
+
+AP_DEPARTAMENTALES = {
+    "TP-Link": ["EAP225", "EAP245", "Archer C6", "TL-WA901N"],
+    "Steren": ["COM-818", "COM-860", "Repetidor WiFi"],
+    "Netgear": ["WAX214", "WAC104", "EX6120"],
+    "Ubiquiti": ["UniFi AP AC Lite", "UniFi AP AC Pro"],
+    "Huawei": ["AP2050DN", "AP4050DN"],
+}
 
 FABRICANTES = {
     "Cisco": {
-        "modelos": ["Catalyst 2960", "Catalyst 3560", "ISR 4331"],
+        "modelos": ["Catalyst 2960", "Catalyst 3560", "ISR 4331", "AIR-AP2802E-A-K9"],
         "tipos": ["Switch Core", "Switch Distribución", "Router"],
         "detalle_telemetria": "alto",
         "protocolos": ["SNMPv3", "NetFlow/IPFIX"],
@@ -157,7 +229,7 @@ APLICACIONES = [
     },
     {
         "nombre": "DNS",
-        "destinos": ["8.8.8.8", "1.1.1.1"],
+        "destinos": DNS_INSTITUCIONALES,
         "puerto": 53,
         "protocolo": "UDP",
         "criticidad": "alta",
@@ -235,7 +307,14 @@ def crear_tabla():
 
         edificio String,
         piso UInt8,
+        area String,
+        codigo_area String,
+        categoria_area String,
+        isla String,
+        ssid String,
+        segmento_red String,
         hostname String,
+
         ip_dispositivo IPv4,
         mac String,
 
@@ -300,68 +379,291 @@ def generar_mac(indice):
 def generar_inventario():
     inventario = []
     indice = 1
+    ip_usadas = set()
 
-    for edificio, info in EDIFICIOS.items():
-        subred = info["subred"]
+    def siguiente_ip(edificio, rango_inicio=2, rango_fin=254):
+        subred = EDIFICIOS[edificio]["subred"]
 
-        # Equipos de infraestructura por edificio
-        for piso in info["pisos"]:
-            for _ in range(random.randint(3, 6)):
-                fabricante = random.choices(
-                    list(FABRICANTES.keys()),
-                    weights=[22, 16, 18, 16, 14, 8],
-                    k=1
-                )[0]
+        # Primero intenta respetar el rango sugerido.
+        for host_id in range(rango_inicio, rango_fin + 1):
+            ip = f"{subred}.{host_id}"
+            if ip not in ip_usadas:
+                ip_usadas.add(ip)
+                return ip
 
+        # Si el rango sugerido se llena, usa cualquier IP disponible del edificio.
+        for host_id in range(2, 255):
+            ip = f"{subred}.{host_id}"
+            if ip not in ip_usadas:
+                ip_usadas.add(ip)
+                return ip
+
+        raise RuntimeError(f"No quedan IPs disponibles para el edificio {edificio}")
+
+    def agregar_dispositivo(
+        edificio,
+        piso,
+        area,
+        codigo_area,
+        categoria_area,
+        hostname,
+        tipo_dispositivo="PC",
+        fabricante="ClienteFinal",
+        modelo="Equipo de cómputo",
+        protocolo_telemetria="Derivado por flujo",
+        nivel_detalle="derivado",
+        confiabilidad=0.90,
+        isla="N/A",
+        ssid="N/A",
+        segmento_red="Cableado institucional",
+        rango_ip_inicio=50,
+        rango_ip_fin=254,
+    ):
+        nonlocal indice
+
+        ip = siguiente_ip(edificio, rango_ip_inicio, rango_ip_fin)
+
+        inventario.append({
+            "fabricante": fabricante,
+            "modelo": modelo,
+            "tipo_dispositivo": tipo_dispositivo,
+            "protocolo_telemetria": protocolo_telemetria,
+            "nivel_detalle": nivel_detalle,
+            "confiabilidad": confiabilidad,
+
+            "edificio": edificio,
+            "piso": piso,
+            "area": area,
+            "codigo_area": codigo_area,
+            "categoria_area": categoria_area,
+            "isla": isla,
+            "ssid": ssid,
+            "segmento_red": segmento_red,
+
+            "hostname": hostname,
+            "ip_dispositivo": ip,
+            "mac": generar_mac(indice),
+        })
+
+        indice += 1
+
+    # 1. Equipos finales por edificio, área, salón, isla, etc.
+
+    for edificio, areas in AREAS_FCA.items():
+        pisos = EDIFICIOS[edificio]["pisos"]
+
+        for area in areas:
+            tipo = area["tipo"]
+
+            if tipo == "sin_equipos":
+                continue
+
+            if tipo == "islas":
+                piso = 1
+
+                for isla, cantidad in area["islas"].items():
+                    for equipo_num in range(1, cantidad + 1):
+                        hostname = f"E{edificio}-{isla}-{equipo_num:02d}"
+
+                        agregar_dispositivo(
+                            edificio=edificio,
+                            piso=piso,
+                            area=area["nombre"],
+                            codigo_area=area["codigo"],
+                            categoria_area=area["categoria"],
+                            hostname=hostname,
+                            tipo_dispositivo="PC",
+                            fabricante="ClienteFinal",
+                            modelo="Equipo de laboratorio",
+                            isla=isla,
+                            rango_ip_inicio=50,
+                            rango_ip_fin=180,
+                        )
+
+            elif tipo == "salones":
+                for salon_num in range(area["inicio"], area["fin"] + 1):
+                    piso = random.choice(pisos)
+                    codigo_salon = f"{area['prefijo']}{salon_num}"
+
+                    for equipo_num in range(1, area["equipos_por_salon"] + 1):
+                        hostname = f"E{edificio}-{codigo_salon}-{equipo_num:02d}"
+
+                        agregar_dispositivo(
+                            edificio=edificio,
+                            piso=piso,
+                            area=f"{area['nombre']} {codigo_salon}",
+                            codigo_area=codigo_salon,
+                            categoria_area=area["categoria"],
+                            hostname=hostname,
+                            tipo_dispositivo="PC",
+                            fabricante="ClienteFinal",
+                            modelo="Equipo de aula",
+                            isla="N/A",
+                            rango_ip_inicio=50,
+                            rango_ip_fin=220,
+                        )
+
+            elif tipo == "departamento":
+                piso = random.choice(pisos)
+
+                for equipo_num in range(1, area["equipos"] + 1):
+                    hostname = f"E{edificio}-{area['codigo']}-{equipo_num:02d}"
+
+                    tipo_dispositivo = random.choice(["PC", "Laptop", "Impresora"])
+
+                    agregar_dispositivo(
+                        edificio=edificio,
+                        piso=piso,
+                        area=area["nombre"],
+                        codigo_area=area["codigo"],
+                        categoria_area=area["categoria"],
+                        hostname=hostname,
+                        tipo_dispositivo=tipo_dispositivo,
+                        fabricante="ClienteFinal",
+                        modelo=tipo_dispositivo,
+                        isla="N/A",
+                        rango_ip_inicio=50,
+                        rango_ip_fin=230,
+                    )
+
+    # 2. Infraestructura cableada por edificio
+
+    for edificio in EDIFICIOS.keys():
+        pisos = EDIFICIOS[edificio]["pisos"]
+
+        for n in range(1, 3):
+            fabricante = random.choice(["Cisco", "Huawei"])
+            perfil = FABRICANTES[fabricante]
+            modelo = random.choice(perfil["modelos"])
+
+            agregar_dispositivo(
+                edificio=edificio,
+                piso=1,
+                area="Infraestructura de red",
+                codigo_area="CORE",
+                categoria_area="Infraestructura",
+                hostname=f"E{edificio}-CORE-{n:02d}",
+                tipo_dispositivo="Switch Core",
+                fabricante=fabricante,
+                modelo=modelo,
+                protocolo_telemetria=random.choice(perfil["protocolos"]),
+                nivel_detalle=perfil["detalle_telemetria"],
+                confiabilidad=perfil["confiabilidad"],
+                isla="N/A",
+                rango_ip_inicio=2,
+                rango_ip_fin=20,
+            )
+
+        for piso in pisos:
+            for n in range(1, 3):
+                fabricante = random.choice(["Cisco", "Huawei", "Ubiquiti", "TP-Link", "Netgear"])
                 perfil = FABRICANTES[fabricante]
                 modelo = random.choice(perfil["modelos"])
-                tipo = random.choice(perfil["tipos"])
 
-                host_id = random.randint(2, 49)
-                ip = f"{subred}.{host_id}"
+                agregar_dispositivo(
+                    edificio=edificio,
+                    piso=piso,
+                    area="Infraestructura de red",
+                    codigo_area=f"SWP{piso}",
+                    categoria_area="Infraestructura",
+                    hostname=f"E{edificio}-SW-P{piso}-{n:02d}",
+                    tipo_dispositivo="Switch Acceso",
+                    fabricante=fabricante,
+                    modelo=modelo,
+                    protocolo_telemetria=random.choice(perfil["protocolos"]),
+                    nivel_detalle=perfil["detalle_telemetria"],
+                    confiabilidad=perfil["confiabilidad"],
+                    isla="N/A",
+                    rango_ip_inicio=21,
+                    rango_ip_fin=49,
+                )
 
-                hostname = f"{tipo.upper().replace(' ', '-')}-{fabricante.upper()}-{edificio}-P{piso}-{indice:03d}"
+    # 3. Access Points institucionales Cisco AIR-AP2802E-A-K9
 
-                inventario.append({
-                    "fabricante": fabricante,
-                    "modelo": modelo,
-                    "tipo_dispositivo": tipo,
-                    "protocolo_telemetria": random.choice(perfil["protocolos"]),
-                    "nivel_detalle": perfil["detalle_telemetria"],
-                    "confiabilidad": perfil["confiabilidad"],
-                    "edificio": edificio,
-                    "piso": piso,
-                    "hostname": hostname,
-                    "ip_dispositivo": ip,
-                    "mac": generar_mac(indice),
-                })
+    edificios_para_ap = ["A", "B", "C", "D"]
 
-                indice += 1
+    for red in SSIDS:
+        for ap_num in range(1, red["cantidad_ap"] + 1):
+            edificio = edificios_para_ap[(ap_num - 1) % len(edificios_para_ap)]
+            piso = random.choice(EDIFICIOS[edificio]["pisos"])
 
-        # Hosts finales simulados: PCs, laptops, impresoras, cámaras
-        for host_num in range(50, 90):
-            piso = random.choice(info["pisos"])
-            tipo_final = random.choice(["PC", "Laptop", "Impresora", "Cámara IP", "Smartphone"])
-            ip = f"{subred}.{host_num}"
+            agregar_dispositivo(
+                edificio=edificio,
+                piso=piso,
+                area="Cobertura inalámbrica institucional",
+                codigo_area="WIFI",
+                categoria_area=red["categoria"],
+                hostname=f"E{edificio}-AP-CISCO-{red['ssid'].replace('UASLP-', '').upper()}-{ap_num:02d}",
+                tipo_dispositivo="Access Point",
+                fabricante="Cisco",
+                modelo="AIR-AP2802E-A-K9",
+                protocolo_telemetria="SNMPv3",
+                nivel_detalle="alto",
+                confiabilidad=0.97,
+                isla="N/A",
+                ssid=red["ssid"],
+                segmento_red=red["segmento"],
+                rango_ip_inicio=181,
+                rango_ip_fin=210,
+            )
 
-            inventario.append({
-                "fabricante": "ClienteFinal",
-                "modelo": tipo_final,
-                "tipo_dispositivo": tipo_final,
-                "protocolo_telemetria": "Derivado por flujo",
-                "nivel_detalle": "derivado",
-                "confiabilidad": 0.90,
-                "edificio": edificio,
-                "piso": piso,
-                "hostname": f"{tipo_final.upper().replace(' ', '-')}-{edificio}-P{piso}-{host_num}",
-                "ip_dispositivo": ip,
-                "mac": generar_mac(indice),
-            })
+    # 4. Access Points departamentales / SOHO. Mínimo 3 por edificio
 
-            indice += 1
+    for edificio in EDIFICIOS.keys():
+        for ap_local in range(1, 4):
+            piso = random.choice(EDIFICIOS[edificio]["pisos"])
+
+            fabricante = random.choice(list(AP_DEPARTAMENTALES.keys()))
+            modelo = random.choice(AP_DEPARTAMENTALES[fabricante])
+            perfil = FABRICANTES.get(fabricante, FABRICANTES["TP-Link"])
+
+            agregar_dispositivo(
+                edificio=edificio,
+                piso=piso,
+                area="AP departamental",
+                codigo_area="APDEP",
+                categoria_area="WiFi Departamental",
+                hostname=f"E{edificio}-AP-DEP-{fabricante.upper()}-{ap_local:02d}",
+                tipo_dispositivo="Access Point SOHO",
+                fabricante=fabricante,
+                modelo=modelo,
+                protocolo_telemetria=random.choice(perfil["protocolos"]),
+                nivel_detalle=perfil["detalle_telemetria"],
+                confiabilidad=max(0.75, perfil["confiabilidad"] - 0.03),
+                isla="N/A",
+                ssid=f"Depto-{edificio}-{ap_local}",
+                segmento_red="WiFi departamental local",
+                rango_ip_inicio=211,
+                rango_ip_fin=230,
+            )
+
+    # 5. Access Points exteriores para explanada
+
+    for ap_ext in range(1, 4):
+        edificio = random.choice(["A", "B", "C", "D"])
+        red = random.choice(SSIDS)
+
+        agregar_dispositivo(
+            edificio=edificio,
+            piso=1,
+            area="Explanada",
+            codigo_area="EXT",
+            categoria_area="WiFi Exterior",
+            hostname=f"EXT-AP-CISCO-EXPLANADA-{ap_ext:02d}",
+            tipo_dispositivo="Access Point Exterior",
+            fabricante="Cisco",
+            modelo="AIR-AP2802E-A-K9",
+            protocolo_telemetria="SNMPv3",
+            nivel_detalle="alto",
+            confiabilidad=0.96,
+            isla="N/A",
+            ssid=red["ssid"],
+            segmento_red=red["segmento"],
+            rango_ip_inicio=231,
+            rango_ip_fin=240,
+        )
 
     return inventario
-
 
 # ==========================================================
 # NORMALIZACIÓN / SIMULACIÓN DE TRÁFICO
@@ -405,13 +707,27 @@ def generar_evento(inventario):
     else:
         bytes_generados = paquetes * random.randint(200, 1000)
 
-    # Simular que ciertos edificios/laboratorios tienen más carga.
-    if dispositivo["edificio"] in ["B", "LAB"]:
-        bytes_generados = int(bytes_generados * random.uniform(1.2, 2.5))
+    
+    # Simular mayor tráfico en laboratorios entre 08:00 y 15:00.
+    hora_actual = datetime.now().hour
+
+    if dispositivo["categoria_area"] == "Laboratorio":
+        if 8 <= hora_actual <= 15:
+            bytes_generados = int(bytes_generados * random.uniform(2.0, 4.5))
+        else:
+            bytes_generados = int(bytes_generados * random.uniform(0.8, 1.5))
+
+    # El Edificio B suele concentrar más tráfico por Laboratorio B y áreas administrativas.
+    if dispositivo["edificio"] == "B":
+        bytes_generados = int(bytes_generados * random.uniform(1.1, 1.8))
+
+    # La red de alumnos suele generar mayor consumo inalámbrico.
+    if dispositivo["ssid"] == "UASLP-Alumnos":
+        bytes_generados = int(bytes_generados * random.uniform(1.5, 2.8))
 
     # Simular que equipos SOHO o extensores tienen más pérdida/errores.
     fabricante = dispositivo["fabricante"]
-    if fabricante in ["Steren", "TP-Link"]:
+    if dispositivo["tipo_dispositivo"] in ["Access Point SOHO", "Extensor WiFi"] or fabricante in ["Steren", "TP-Link"]:
         perdida_pct = round(random.uniform(0, 8), 2)
         errores = random.randint(0, 45)
         latencia = round(random.uniform(10, 120), 2)
@@ -446,7 +762,15 @@ def generar_evento(inventario):
 
         "edificio": dispositivo["edificio"],
         "piso": dispositivo["piso"],
+        "area": dispositivo["area"],
+        "codigo_area": dispositivo["codigo_area"],
+        "categoria_area": dispositivo["categoria_area"],
+        "isla": dispositivo["isla"],
+        "ssid": dispositivo["ssid"],
+        "segmento_red": dispositivo["segmento_red"],
+
         "hostname": dispositivo["hostname"],
+
         "ip_dispositivo": dispositivo["ip_dispositivo"],
         "mac": dispositivo["mac"],
 
