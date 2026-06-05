@@ -22,7 +22,8 @@ import random
 import time
 import urllib.parse
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 
 # ==========================================================
@@ -709,7 +710,7 @@ def generar_evento(inventario):
 
     
     # Simular mayor tráfico en laboratorios entre 08:00 y 15:00.
-    hora_actual = datetime.now().hour
+    hora_actual = datetime.now(ZoneInfo("America/Mexico_City")).hour
 
     if dispositivo["categoria_area"] == "Laboratorio":
         if 8 <= hora_actual <= 15:
@@ -752,7 +753,7 @@ def generar_evento(inventario):
     )
 
     evento = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),        
 
         "fabricante": dispositivo["fabricante"],
         "modelo": dispositivo["modelo"],
