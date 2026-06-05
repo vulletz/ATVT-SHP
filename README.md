@@ -86,7 +86,7 @@ VictoriaMetrics
         ↓
 Grafana
 
-```bash
+```text
 
 ## Flujo principal de tráfico simulado
 El script simulador_red_heterogenea.py genera eventos de tráfico.
