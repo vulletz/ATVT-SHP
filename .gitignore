@@ -18,3 +18,8 @@ venv/
 # Archivos temporales
 *.tmp
 *.bak
+
+.bash_history
+.gitconfig
+.local/
+simulador_red_heterogenea_BACKUP.py
