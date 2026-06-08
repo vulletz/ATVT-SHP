@@ -5,8 +5,8 @@
     "name": "adp5pzx",
     "namespace": "default",
     "uid": "9190baec-5a4c-4e5e-8b21-ddcc39615457",
-    "resourceVersion": "1780682459819993",
-    "generation": 49,
+    "resourceVersion": "1780926521075995",
+    "generation": 53,
     "creationTimestamp": "2026-06-05T14:46:52Z",
     "labels": {
       "grafana.app/deprecatedInternalID": "260392465166336"
@@ -16,7 +16,7 @@
       "grafana.app/folder": "",
       "grafana.app/saved-from-ui": "Grafana v13.0.1+security-01 (9bbe672d)",
       "grafana.app/updatedBy": "user:efo4wgcypqby8c",
-      "grafana.app/updatedTimestamp": "2026-06-05T18:00:59Z"
+      "grafana.app/updatedTimestamp": "2026-06-08T13:48:41Z"
     }
   },
   "spec": {
@@ -780,6 +780,310 @@
                         "pluginVersion": "4.17.0",
                         "queryType": "table",
                         "rawSql": "SELECT\n    edificio,\n    piso,\n    hostname,\n    ip_dispositivo,\n    fabricante,\n    tipo_dispositivo,\n    estado,\n    max(timestamp) AS ultima_lectura,\n    sum(bytes) AS trafico_total,\n    avg(latencia_ms) AS latencia_promedio,\n    avg(perdida_pct) AS perdida_promedio\nFROM telemetria.trafico_red\nWHERE $__timeFilter(timestamp)\nGROUP BY\n    edificio,\n    piso,\n    hostname,\n    ip_dispositivo,\n    fabricante,\n    tipo_dispositivo,\n    estado\nORDER BY edificio, piso, trafico_total DESC"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "13.0.1+security-01",
+            "spec": {
+              "options": {
+                "cellHeight": "sm",
+                "showHeader": true
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "inspect": false
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-17": {
+        "kind": "Panel",
+        "spec": {
+          "id": 17,
+          "title": "Inventario lógico",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "grafana-clickhouse-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "bfo536ympkg74e"
+                      },
+                      "spec": {
+                        "editorType": "sql",
+                        "format": 1,
+                        "meta": {
+                          "builderOptions": {
+                            "columns": [],
+                            "database": "",
+                            "limit": 1000,
+                            "mode": "list",
+                            "queryType": "table",
+                            "table": ""
+                          }
+                        },
+                        "pluginVersion": "4.17.0",
+                        "queryType": "table",
+                        "rawSql": "SELECT\n    hostname,\n    ip_dispositivo,\n    edificio,\n    piso,\n    area,\n    tipo_dispositivo,\n    switch_hostname,\n    switch_ip,\n    puerto_switch,\n    tipo_conexion,\n    vlan,\n    ssid\nFROM telemetria.inventario_red\nWHERE edificio IN (${edificio:singlequote})\nORDER BY edificio, switch_hostname, puerto_switch"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "table",
+            "version": "13.0.1+security-01",
+            "spec": {
+              "options": {
+                "cellHeight": "sm",
+                "showHeader": true
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "custom": {
+                    "align": "auto",
+                    "cellOptions": {
+                      "type": "auto"
+                    },
+                    "footer": {
+                      "reducers": []
+                    },
+                    "inspect": false
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-18": {
+        "kind": "Panel",
+        "spec": {
+          "id": 18,
+          "title": "Switches con más dispositivos conectados",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "grafana-clickhouse-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "bfo536ympkg74e"
+                      },
+                      "spec": {
+                        "editorType": "sql",
+                        "format": 1,
+                        "meta": {
+                          "builderOptions": {
+                            "columns": [],
+                            "database": "",
+                            "limit": 1000,
+                            "mode": "list",
+                            "queryType": "table",
+                            "table": ""
+                          }
+                        },
+                        "pluginVersion": "4.17.0",
+                        "queryType": "table",
+                        "rawSql": "SELECT\n    switch_hostname,\n    switch_ip,\n    edificio,\n    countDistinct(hostname) AS dispositivos_conectados\nFROM telemetria.inventario_red\nWHERE edificio IN (${edificio:singlequote})\nGROUP BY switch_hostname, switch_ip, edificio\nORDER BY dispositivos_conectados DESC\nLIMIT 15"
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "barchart",
+            "version": "13.0.1+security-01",
+            "spec": {
+              "options": {
+                "barRadius": 0,
+                "barWidth": 0.65,
+                "fullHighlight": false,
+                "groupWidth": 0.7,
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "orientation": "auto",
+                "showValue": "always",
+                "stacking": "normal",
+                "text": {
+                  "valueSize": 25
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                },
+                "xTickLabelRotation": 0,
+                "xTickLabelSpacing": 0
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "none",
+                  "min": 0,
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "continuous-GrYlRd"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "fillOpacity": 80,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineWidth": 0,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-19": {
+        "kind": "Panel",
+        "spec": {
+          "id": 19,
+          "title": "Tráfico por dispositivo y switch asociado",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "grafana-clickhouse-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "bfo536ympkg74e"
+                      },
+                      "spec": {
+                        "editorType": "sql",
+                        "format": 1,
+                        "meta": {
+                          "builderOptions": {
+                            "columns": [],
+                            "database": "",
+                            "limit": 1000,
+                            "mode": "list",
+                            "queryType": "table",
+                            "table": ""
+                          }
+                        },
+                        "pluginVersion": "4.17.0",
+                        "queryType": "table",
+                        "rawSql": "SELECT\n    t.hostname,\n    i.ip_dispositivo,\n    i.edificio,\n    i.area,\n    i.switch_hostname,\n    i.switch_ip,\n    i.puerto_switch,\n    sum(t.bytes) AS trafico_total,\n    avg(t.latencia_ms) AS latencia_promedio,\n    avg(t.perdida_pct) AS perdida_promedio,\n    argMax(t.estado, t.timestamp) AS estado_actual\nFROM telemetria.trafico_red AS t\nLEFT JOIN telemetria.inventario_red AS i\n    ON t.hostname = i.hostname\nWHERE $__timeFilter(t.timestamp)\n  AND i.edificio IN (${edificio:singlequote})\nGROUP BY\n    t.hostname,\n    i.ip_dispositivo,\n    i.edificio,\n    i.area,\n    i.switch_hostname,\n    i.switch_ip,\n    i.puerto_switch\nORDER BY trafico_total DESC\nLIMIT 50"
                       }
                     },
                     "refId": "A",
@@ -1884,6 +2188,45 @@
               "element": {
                 "kind": "ElementReference",
                 "name": "panel-2"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 80,
+              "width": 24,
+              "height": 19,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-17"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 99,
+              "width": 24,
+              "height": 15,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-18"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 114,
+              "width": 24,
+              "height": 17,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-19"
               }
             }
           }
