@@ -37,6 +37,9 @@ services:
     container_name: telegraf_colector
     restart: always
     network_mode: "host"
+    volumes:
+      - /opt/atvt/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    command: ["--config", "/etc/telegraf/telegraf.conf"]
 
 volumes:
   clickhouse_data:
