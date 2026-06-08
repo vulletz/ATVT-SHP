@@ -144,6 +144,23 @@ El tráfico se divide en cuatro edificios principales:
 
 Cada edificio contiene áreas, laboratorios, salones, departamentos y dispositivos asociados.
 
+#### Inventario lógico dispositivo-switch
+
+El prototipo incluye una tabla adicional llamada `telemetria.inventario_red`, la cual relaciona cada dispositivo simulado con el switch al que se encuentra conectado.
+
+Esta tabla permite identificar:
+
+- Hostname e IP del dispositivo.
+- Edificio, piso y área.
+- Switch asociado.
+- IP del switch.
+- Puerto lógico del switch.
+- Tipo de conexión.
+- VLAN o segmento lógico.
+- SSID, cuando aplica.
+
+Esto permite responder preguntas operativas como: “¿en qué switch se encuentra conectado este equipo?” o “¿qué dispositivos dependen de este switch?”.
+
 ---
 
 ## 8. Distribución lógica simulada
