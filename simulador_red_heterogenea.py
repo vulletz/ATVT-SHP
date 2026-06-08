@@ -37,7 +37,7 @@ CLICKHOUSE_PASSWORD = "admin123"
 
 DATABASE = "telemetria"
 TABLE = "trafico_red"
-
+INVENTORY_TABLE = "inventario_red"
 
 # ==========================================================
 # MODELO DE RED
@@ -341,6 +341,38 @@ def crear_tabla():
     """
     ejecutar_clickhouse(query)
 
+def crear_tabla_inventario():
+    query = f"""
+    CREATE TABLE IF NOT EXISTS {DATABASE}.{INVENTORY_TABLE}
+    (
+        timestamp DateTime,
+        hostname String,
+        ip_dispositivo IPv4,
+        mac String,
+        edificio String,
+        piso UInt8,
+        area String,
+        codigo_area String,
+        categoria_area String,
+        tipo_dispositivo String,
+        fabricante String,
+        modelo String,
+
+        switch_hostname String,
+        switch_ip IPv4,
+        switch_fabricante String,
+        switch_modelo String,
+        puerto_switch String,
+
+        tipo_conexion String,
+        vlan String,
+        ssid String,
+        segmento_red String
+    )
+    ENGINE = ReplacingMergeTree(timestamp)
+    ORDER BY (edificio, switch_hostname, puerto_switch, hostname)
+    """
+    ejecutar_clickhouse(query)
 
 def insertar_eventos(eventos):
     if not eventos:
@@ -367,6 +399,33 @@ def insertar_eventos(eventos):
         print(e.read().decode("utf-8", errors="replace"))
         print("\n[!] Primer evento que se intentó insertar:")
         print(json.dumps(eventos[0], indent=2, ensure_ascii=False))
+        raise
+
+def insertar_inventario(registros):
+    if not registros:
+        return
+
+    query = f"INSERT INTO {DATABASE}.{INVENTORY_TABLE} FORMAT JSONEachRow"
+    payload = "\n".join(json.dumps(r, ensure_ascii=False) for r in registros)
+
+    req = urllib.request.Request(
+        url=clickhouse_url(query),
+        data=payload.encode("utf-8"),
+        method="POST",
+        headers={"Content-Type": "application/json"},
+    )
+
+    try:
+        with urllib.request.urlopen(req, timeout=10) as response:
+            response.read()
+
+    except urllib.error.HTTPError as e:
+        print("\n[!] ClickHouse rechazó el INSERT del inventario")
+        print(f"[!] Código HTTP: {e.code}")
+        print("[!] Respuesta de ClickHouse:")
+        print(e.read().decode("utf-8", errors="replace"))
+        print("\n[!] Primer registro de inventario:")
+        print(json.dumps(registros[0], indent=2, ensure_ascii=False))
         raise
 
 # ==========================================================
@@ -666,6 +725,106 @@ def generar_inventario():
 
     return inventario
 
+def generar_topologia_switches(inventario):
+    """
+    Genera una tabla lógica de conexión entre dispositivos finales/APs
+    y switches de acceso/core.
+
+    No representa descubrimiento real LLDP/CDP, sino una simulación de
+    topología lógica para validar visualización e inventario.
+    """
+
+    timestamp_actual = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
+
+    switches_por_edificio = {}
+    cores_por_edificio = {}
+
+    for dispositivo in inventario:
+        edificio = dispositivo["edificio"]
+
+        if dispositivo["tipo_dispositivo"] == "Switch Acceso":
+            switches_por_edificio.setdefault(edificio, []).append(dispositivo)
+
+        if dispositivo["tipo_dispositivo"] == "Switch Core":
+            cores_por_edificio.setdefault(edificio, []).append(dispositivo)
+
+    registros = []
+    contador_puertos = {}
+
+    def siguiente_puerto(switch_hostname):
+        contador_puertos.setdefault(switch_hostname, 0)
+        contador_puertos[switch_hostname] += 1
+        return f"Gi1/0/{contador_puertos[switch_hostname]}"
+
+    for dispositivo in inventario:
+        tipo = dispositivo["tipo_dispositivo"]
+        edificio = dispositivo["edificio"]
+
+        # Los switches core no se conectan a sí mismos en esta tabla.
+        if tipo == "Switch Core":
+            continue
+
+        # Los switches de acceso cuelgan del core.
+        if tipo == "Switch Acceso":
+            candidatos = cores_por_edificio.get(edificio, [])
+            tipo_conexion = "Uplink"
+            vlan = "Troncal"
+        # Los AP institucionales/exteriores suelen ir a switch de acceso o core.
+        elif tipo in ["Access Point", "Access Point Exterior", "Access Point SOHO"]:
+            candidatos = switches_por_edificio.get(edificio, []) or cores_por_edificio.get(edificio, [])
+            tipo_conexion = "Inalámbrico"
+            vlan = dispositivo.get("segmento_red", "WiFi")
+        # Equipos finales cableados van a switches de acceso.
+        else:
+            candidatos = switches_por_edificio.get(edificio, []) or cores_por_edificio.get(edificio, [])
+            tipo_conexion = "Cableado"
+            vlan = "LAN-Cableada"
+
+        if not candidatos:
+            # Fallback por si un edificio queda sin switches por algún bug.
+            continue
+
+        # Preferir switches del mismo piso si existen.
+        mismos_piso = [
+            sw for sw in candidatos
+            if sw.get("piso") == dispositivo.get("piso")
+        ]
+
+        if mismos_piso:
+            switch = random.choice(mismos_piso)
+        else:
+            switch = random.choice(candidatos)
+
+        puerto = siguiente_puerto(switch["hostname"])
+
+        registros.append({
+            "timestamp": timestamp_actual,
+            "hostname": dispositivo["hostname"],
+            "ip_dispositivo": dispositivo["ip_dispositivo"],
+            "mac": dispositivo["mac"],
+            "edificio": dispositivo["edificio"],
+            "piso": dispositivo["piso"],
+            "area": dispositivo["area"],
+            "codigo_area": dispositivo["codigo_area"],
+            "categoria_area": dispositivo["categoria_area"],
+            "tipo_dispositivo": dispositivo["tipo_dispositivo"],
+            "fabricante": dispositivo["fabricante"],
+            "modelo": dispositivo["modelo"],
+
+            "switch_hostname": switch["hostname"],
+            "switch_ip": switch["ip_dispositivo"],
+            "switch_fabricante": switch["fabricante"],
+            "switch_modelo": switch["modelo"],
+            "puerto_switch": puerto,
+
+            "tipo_conexion": tipo_conexion,
+            "vlan": vlan,
+            "ssid": dispositivo.get("ssid", "N/A"),
+            "segmento_red": dispositivo.get("segmento_red", "Cableado institucional"),
+        })
+
+    return registros
+
 # ==========================================================
 # NORMALIZACIÓN / SIMULACIÓN DE TRÁFICO
 # ==========================================================
@@ -827,8 +986,9 @@ def main():
     print(f"ClickHouse: http://{CLICKHOUSE_HOST}:{CLICKHOUSE_PORT}")
     print(f"Tabla destino: {DATABASE}.{TABLE}")
 
-    print("[+] Creando/verificando base de datos y tabla...")
+    print("[+] Creando/verificando bases de datos y tablas...")
     crear_tabla()
+    crear_tabla_inventario()
 
     if args.solo_crear_tabla:
         print("[+] Tabla creada/verificada correctamente.")
@@ -836,6 +996,11 @@ def main():
 
     inventario = generar_inventario()
     print(f"[+] Inventario simulado generado: {len(inventario)} dispositivos")
+
+    topologia = generar_topologia_switches(inventario)
+    insertar_inventario(topologia)
+    print(f"[+] Topología lógica generada: {len(topologia)} enlaces dispositivo-switch")
+
     print("[+] Iniciando generación de tráfico. Presiona Ctrl+C para detener.\n")
 
     total = 0
